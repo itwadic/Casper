@@ -8,7 +8,10 @@ into the {body} of the default.hbs template --}}
 <main id="site-main" class="site-main outer container">
     <div class="inner">
 
+
+
         <article class="post-full {{post_class}} {{#unless feature_image}}no-image{{/unless}}">
+
 
             {{#if feature_image}}
             <figure class="post-full-image" style="display:none;">
@@ -28,10 +31,9 @@ into the {body} of the default.hbs template --}}
             </figure>
             {{/if}}
 
-            <section class="post-full-content container">
-                {{!-- {{> left-nav}} --}}
-                <div class="post-content">
-                    <h2 style="text-align: center;">{{title}}</h2>
+            <section class="post-full-content container ">
+				{{> left-nav}}                
+			<div class="post-content">
                     {{content}}
                 </div>
             </section>
@@ -53,7 +55,7 @@ into the {body} of the default.hbs template --}}
 </main>
 
 {{!-- Links to Previous/Next posts --}}
-<aside class="read-next outer" style="display:none;">
+<aside class="read-next outer" style="display:none;"> 
     <div class="inner">
         <div class="read-next-feed">
             {{#if primary_tag}}
@@ -80,7 +82,7 @@ into the {body} of the default.hbs template --}}
                     </div>
                     <footer class="read-next-card-footer">
                         <a href="{{#../primary_tag}}{{url}}{{/../primary_tag}}">{{plural meta.pagination.total empty='No posts' singular='% post' plural='See all % posts'}}
-                            →</a>
+                            </a>
                     </footer>
                 </article>
                 {{/if}}
@@ -98,6 +100,8 @@ into the {body} of the default.hbs template --}}
             {{/prev_post}}
         </div>
     </div>
+
+
 </aside>
 
 {{/post}}
@@ -106,15 +110,24 @@ into the {body} of the default.hbs template --}}
 {{#contentFor "scripts"}}
 <script>
 
-    $($("#top-search .top-search-catalog > div").get(0)).addClass('active');
-
+$($("#top-search .top-search-catalog > div").get(0)).addClass('active');
+		
 
     $(document).ready(function () {
-        if (!(location.href.includes("#"))) {
-            setTimeout(function () {
-                //window.scrollBy(sessionStorage.getItem("pageScroll"),sessionStorage.getItem("pageScroll"));
-            }, 1000)
+		
+		
+		 if(!(location.href.includes("#")))
+        {
+            setTimeout(function(){
+              //window.scrollBy(sessionStorage.getItem("pageScroll"),sessionStorage.getItem("pageScroll"));
+            },1000)
         }
+       
+         window.onscroll=function(){  
+             //sessionStorage.setItem("pageScroll",$(document).scrollTop());
+        }
+     
+       
     });
 </script>
 

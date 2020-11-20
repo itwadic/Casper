@@ -1,0 +1,162 @@
+{{!< default}}
+
+{{!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template --}}
+<link rel="stylesheet" type="text/css" href="/help-center{{asset "tocbot/tocbot.css"}}" />
+
+{{!-- Everything inside the #post tags pulls data from the post --}}
+{{#post}}
+<main id="site-main" class="site-main outer container">
+    <div class="inner">
+
+        <div class="container">
+            <div id="index-top-nav">
+                <a href="http://localhost:2368/help-center/file-preparation-faq/"
+                    class="btn btn-outline-secondary active">File Preparation</a>
+                <button type="button" class="btn btn-outline-secondary">Ordering</button>
+                <button type="button" class="btn btn-outline-secondary">Uploading</button>
+                <button type="button" class="btn btn-outline-secondary">Proofing</button>
+                <button type="button" class="btn btn-outline-secondary">Mailing Services</button>
+                <button type="button" class="btn btn-outline-secondary">Shipping / Turnaround</button>
+                <button type="button" class="btn btn-outline-secondary">Design Tools</button>
+                <button type="button" class="btn btn-outline-secondary">Templates</button>
+                <button type="button" class="btn btn-outline-secondary">Customer Service</button>
+                <button type="button" class="btn btn-outline-secondary">Account</button>
+            </div>
+        </div>
+
+        <article class="post-full {{post_class}} {{#unless feature_image}}no-image{{/unless}}">
+
+
+            {{#if feature_image}}
+            <figure class="post-full-image">
+                {{!-- This is a responsive image, it loads different sizes depending on device
+                https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 --}}
+                <img srcset="{{img_url feature_image size="s"}} 300w,
+                            {{img_url feature_image size="m"}} 600w,
+                            {{img_url feature_image size="l"}} 1000w,
+                            {{img_url feature_image size="xl"}} 2000w" sizes="(max-width: 800px) 400px,
+                        (max-width: 1170px) 1170px,
+                            2000px" src="{{img_url feature_image size="xl"}}" alt="{{title}}" />
+            </figure>
+            {{/if}}
+
+            <section class="post-full-content">
+                <aside class="toc-container">
+                    <div class="toc"></div>
+                </aside>
+                <div class="post-content">
+                    {{content}}
+                </div>
+            </section>
+
+            {{!-- Email subscribe form at the bottom of the page --}}
+            {{#if @labs.members}}
+            {{> subscribe-form}}
+            {{/if}}
+
+            {{!--
+            <section class="post-full-comments">
+                If you want to embed comments, this is a good place to do it!
+            </section>
+            --}}
+
+        </article>
+
+    </div>
+</main>
+
+{{!-- Links to Previous/Next posts --}}
+<aside class="read-next outer" style="display:none;">
+    <div class="inner">
+        <div class="read-next-feed">
+            {{#if primary_tag}}
+            {{#get "posts" filter="tags:{{primary_tag.slug}}+id:-{{id}}" limit="3" as |related_posts|}}
+            {{#if related_posts}}
+            <article class="read-next-card">
+                <header class="read-next-card-header">
+                    {{#../primary_tag}}
+                    <h3><span>More in</span> <a href="{{url}}">{{name}}</a></h3>
+                    {{/../primary_tag}}
+                </header>
+                <div class="read-next-card-content">
+                    <ul>
+                        {{#foreach related_posts}}
+                        <li>
+                            <h4><a href="{{url}}">{{title}}</a></h4>
+                            <div class="read-next-card-meta">
+                                <p><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMM YYYY"}}</time> –
+                                    {{reading_time}}</p>
+                            </div>
+                        </li>
+                        {{/foreach}}
+                    </ul>
+                </div>
+                <footer class="read-next-card-footer">
+                    <a href="{{#../primary_tag}}{{url}}{{/../primary_tag}}">{{plural meta.pagination.total empty='No posts' singular='% post' plural='See all % posts'}}
+                        →</a>
+                </footer>
+            </article>
+            {{/if}}
+            {{/get}}
+            {{/if}}
+
+            {{!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs --}}
+            {{#next_post}}
+            {{> "post-card"}}
+            {{/next_post}}
+
+            {{!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs --}}
+            {{#prev_post}}
+            {{> "post-card"}}
+            {{/prev_post}}
+        </div>
+    </div>
+</aside>
+
+{{/post}}
+
+{{!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs --}}
+{{#contentFor "scripts"}}
+<script>
+    $(document).ready(function () {
+        // FitVids - start
+        var $postContent = $(".post-full-content");
+        $postContent.fitVids();
+        // FitVids - end
+
+        // Replace nav with title on scroll - start
+        /*
+        Casper.stickyNavTitle({
+            navSelector: '.site-nav-main',
+            titleSelector: '.post-full-title',
+            activeClass: 'nav-post-title-active'
+        });*/
+        // Replace nav with title on scroll - end
+
+        // Hover on avatar
+        var hoverTimeout;
+        $('.author-list-item').hover(function () {
+            var $this = $(this);
+
+            clearTimeout(hoverTimeout);
+
+            $('.author-card').removeClass('hovered');
+            $(this).children('.author-card').addClass('hovered');
+
+        }, function () {
+            var $this = $(this);
+
+            hoverTimeout = setTimeout(function () {
+                $this.children('.author-card').removeClass('hovered');
+            }, 800);
+        });
+
+        $('a.accordion span').bind('click.open', function (event) {
+            window.location = $(this).parent().attr('data-href');
+        });
+
+    });
+</script>
+
+{{/contentFor}}

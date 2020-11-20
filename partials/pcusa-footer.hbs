@@ -1,0 +1,157 @@
+<section data-title="FOOTER">
+	<footer>
+		<script>
+			$(function () {
+
+				if (document.getElementById("pricing-tool")) {
+					document.getElementById('instant-quote').style.display = "block";
+				}
+				else {
+					document.getElementById('instant-quote').style.display = "none";
+				}
+
+				$('#instant-quote .instant-quote').click(function () {
+					var target = $("#pricing-tool");
+					// console.log(target);
+					$('html, body').animate({
+						scrollTop: $(target).offset().top - 90
+					}, 500);
+					return false;
+				});
+				// Scroll to top.
+				var offset = 250;
+				var duration = 300;
+				jQuery(window).scroll(function () {
+					if (jQuery(this).scrollTop() > offset) {
+						jQuery('.back-to-top').fadeIn(duration);
+					} else {
+						jQuery('.back-to-top').fadeOut(duration);
+					}
+				});
+
+				jQuery('.back-to-top').on('click', function (event) {
+					event.preventDefault();
+					jQuery('html, body').animate({ scrollTop: 0 }, duration);
+					return false;
+				});
+
+				$('.post-content  img').liteBox();
+			});
+		</script>
+		<button class="back-to-top" style="display: block;"><i class="fa fa-chevron-up"></i> </button>
+		<div class="container">
+			<div class="full-width sticky-buttons d-lg-none"
+				style="display:flex;justify-content:space-between;position:fixed;bottom: 0px;left:0px;z-index: 100002;">
+				<div class="p-0"> <a href="javascript: scrollToPrice()" class="chat button-main d-none"
+						style="background-color:#FFF100;color:black;font-weight:600;"><i class="fas fa-angle-up"></i>
+						Let's Chat! </a> </div>
+				<div class="p-0" style="display:none" id="instant-quote"> <a href="javascript:void(0);"
+						class="instant-quote button-main">Instant
+						Quote <i class="fas fa-angle-up"></i></a>
+				</div>
+			</div>
+			<div id="sign_up" class="footer row full-width">
+			</div>
+			<!-- Begin Social block-->
+			<div class="full-width social bg-secondary" id="socialContainer">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-2 vertical-center text-center p-0">
+							<span> Follow Us </span>
+						</div>
+						<div class="col-lg-8">
+							<div class="row">
+								<div class="col"> <i class="fab fa-facebook-square" aria-hidden="true"
+										onclick="window.open('https://www.facebook.com/printingcenterusa/')"></i>
+								</div>
+								<div class="col"> <i class="fab fa-twitter-square" aria-hidden="true"
+										onclick="window.open('https://twitter.com/printcenterusa/')"></i>
+								</div>
+								<div class="col"> <i class="fab fa-instagram" aria-hidden="true"
+										onclick="window.open('https://www.instagram.com/printingcenterusa/')"></i>
+								</div>
+								<div class="col"> <i class="fab fa-pinterest-square" aria-hidden="true"
+										onclick="window.open('https://in.pinterest.com/pcusa')"></i>
+								</div>
+								<div class="col"> <i class="fas fa-rss-square" aria-hidden="true"
+										onclick="window.open('https://web.printingcenterusa.com/blog')"></i>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 vertical-center text-center p-0">
+							<span> #printingcenterusa </span>
+						</div>
+					</div>
+				</div>
+			</div> <!-- End Social Block -->
+			<div class="row company">
+				<div class="col-xl-2 d-none d-xl-block">
+					<div class="row afs">
+						<div class="col-6"> <a
+								href="http://www.bbb.org/eastern-washington/business-reviews/printers/printingcenterusa-in-great-falls-mt-8000644/"
+								target="_blank" rel="noopener"> <img width="100%" height="auto"
+									src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038505/pcusa/V2/bbb.png">
+							</a> </div>
+						<div class="col-6"> <a href="/guarantee" target="_blank" rel="noopener"> <img
+									style="height: 50px;" width="auto"
+									src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038508/pcusa/V2/satisfaction-guarantee_v3_600x600.png"
+									alt="Satisfaction Guranrantee">
+							</a> </div>
+						<div class="col-6"> <img width="100%" height="auto"
+								src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038508/pcusa/V2/satisfaction-guarantee_v3_600x600.png">
+						</div>
+						<div class="col-6"> <a href="http://www.ups.com/" target="_blank" rel="noopener"> <img
+									style="height: 50px;" width="auto"
+									src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038508/pcusa/V2/ups.png">
+							</a> </div>
+						<div class="col-6"> <img
+								src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038506/pcusa/V2/godaddy.png">
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-5">
+					<div class="contact">
+						<h2>PrintingCenterUSA.com</h2>
+						<p>117 9th Street North</p>
+						<p>Great Falls, MT, 59401</p>
+						<p>United States</p>
+						<p>Tel: <a href="tel:800-995-1555">(800) 995-1555</a></p>
+						<p>Fax: (406) 771-7777</p>
+						<p> E-mail: <a href="mailto:support@printingcenterusa.com">support@printingcenterusa.com</a>
+						</p>
+					</div>
+				</div>
+				<div class="col-xl-5">
+					<div class="row bottom-links">
+						<div class="col-6"> <a class="" href="/guarantee">Guarantee</a> <a class=""
+								href="/privacy">Privacy Policy</a> <a class=""
+								href="https://info.printingcenterusa.com/sign-up-save" target="_blank">Newsletter/Promo
+								Signup</a> <a class="" href="/rave-reviews">Rave
+								Reviews</a> <a class="" href="/terms-and-conditions">Terms And Conditions</a> </div>
+						<div class="col-6"> <a class="" href="/help-center">Help Center</a> <a class=""
+								href="/site-map">Site Map</a> <a class="" href="/contact-us">Contact Us</a> <a class=""
+								href="/about-us">About Us</a> <a class=""
+								href="/employment-with-printingcenterusa">Employment
+								Opportunities</a> </div>
+					</div>
+				</div>
+			</div>
+			<div class="row copyright">
+				<div class="col">
+					<hr class="full-width">
+				</div>
+				<div class="col-12">
+					<h3 class="text-center">All Rights Reserved © 2019-2020 PrintingCenterUSA</h3>
+				</div>
+				<div class="col-12  d-md-none" style="height:28pt">
+
+				</div>
+				<div class="col-2 d-none d-xl-block"></div>
+				<!--<div class="col-2 d-none d-xl-block" style="text-align: right;border-right: 1px solid #7c7f81;"> <a href="/terms-and-conditions"
+				 target="_blank">Terms and Conditions</a> </div>
+			<div class="col-2 d-none d-xl-block" style="text-align: left;"> <a href="/privacy" target="_blank">Privacy Policy</a>
+			</div>-->
+			</div>
+			</container>
+	</footer>
+</section>

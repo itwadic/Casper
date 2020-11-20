@@ -1,0 +1,494 @@
+<div id="left-nav-container">
+	<div class="nav-header">
+		<img src="{{asset "image/Tutorials_Icon.png"}}" alt="Tutorials" />
+		<span class="title-span">Tutorials, Overviews,<br>&amp; Terminology</span>
+
+		<div id="accordion-one">
+			<a>
+				<span>Tutorials, Overviews,and Terminology <i _ngcontent-afm-c4=""
+						class="item-icon fa  fa-plus"></i></span>
+			</a>
+		</div>
+
+	</div>
+	<nav id="left-nav" class="nav flex-column ">
+		{{#get "posts" filter="tag:tutorials-navigation+featured:true"  order="published_at asc"}}
+		<div class="nav-{{id}} flex-column left-nav-content">
+
+			{{#foreach posts visibility="all"}}
+			<ul>
+				<li>
+					{{#if meta_title}}
+					<!--THE FIRST NODE-->
+				<li><a class="nav-link " NodeTitle={{slug}} href={{meta_title}}>{{excerpt}}</a></li>
+				{{else}}
+				<!--THE FIRST NODE-->
+				<span class="nav-link-title" NodeTitle={{slug}} id={{id}}>{{excerpt}}
+					<i _ngcontent-afm-c4="" class="item-icon fa fa-caret-right item-icon-desk"></i>
+					<!--Phone icon-->
+					<i _ngcontent-afm-c4="" class="item-icon fa  fa-plus item-icon-mobile"></i>
+				</span>
+
+
+				{{#get "posts" limit="all" filter="tag:tutorials-navigation+featured:false+(slug:'{{slug}}-1',slug:'{{slug}}-2',slug:'{{slug}}-3',slug:'{{slug}}-4',slug:'{{slug}}-5',slug:'{{slug}}-5',slug:'{{slug}}-6',slug:'{{slug}}-7',slug:'{{slug}}-8',slug:'{{slug}}-9',slug:'{{slug}}-10',slug:'{{slug}}-11',slug:'{{slug}}-12',slug:'{{slug}}-13',slug:'{{slug}}-14',slug:'{{slug}}-15',slug:'{{slug}}-16',slug:'{{slug}}-17',title:'{{slug}}-18',slug:'{{slug}}-19',slug:'{{slug}}-20')"
+				order="published_at desc"}}
+				<ul style="display:none;">
+					{{#foreach posts visibility="all"}}
+					{{#if meta_title}}
+					<!--THE SECOND NODE-->
+					<li><a class="nav-link childrenTitle" NodeTitle={{slug}} href={{meta_title}}>{{excerpt}}</a>
+					</li>
+					{{else}}
+					<li>
+						<span class="nav-link-title childrenTitle" NodeTitle={{slug}} id={{id}}>{{excerpt}}
+
+							<i _ngcontent-afm-c4="" class="item-icon  fa fa-caret-right item-icon-desk"></i>
+							<!--Phone children icon-->
+							<i _ngcontent-afm-c4="" class="item-icon childrenicon fa  fa-plus item-icon-mobile"></i>
+						</span>
+						<ul style="display:none;">
+							{{#get "posts" limit="all" filter="tag:tutorials-navigation+featured:false+(slug:'{{slug}}-1',slug:'{{slug}}-2',slug:'{{slug}}-3',slug:'{{slug}}-4',slug:'{{slug}}-5',slug:'{{slug}}-5',slug:'{{slug}}-6',slug:'{{slug}}-7',slug:'{{slug}}-8',slug:'{{slug}}-9',slug:'{{slug}}-10',slug:'{{slug}}-11',slug:'{{slug}}-12',slug:'{{slug}}-13',slug:'{{slug}}-14',slug:'{{slug}}-15',slug:'{{slug}}-16',slug:'{{slug}}-17',slug:'{{slug}}-18',slug:'{{slug}}-19',slug:'{{slug}}-20')"
+							order="published_at desc"}}
+							<!--THE THREE NODE-->
+							{{#foreach posts visibility="all"}}
+							<li><a class="nav-link childrenlink" NodeTitle={{slug}}
+									href="{{meta_title}}">{{excerpt}}</a></li>
+							{{/foreach}}
+
+							{{/get}}
+						</ul>
+
+					</li>
+
+					{{/if}}
+
+					{{/foreach}}
+				</ul>
+				{{/get}}
+
+
+
+
+
+				</li>
+				{{/if}}
+			</ul>
+			{{/foreach}}
+
+			{{/get}}
+		</div>
+
+
+	</nav>
+
+
+
+	<!--FAQ LEF NAV-->
+	<div class="nav-header">
+		<img src="{{asset "image/FAQ_Icon.png"}}" alt="FAQ" />
+		<span class="title-span">Frequently Asked<br>Questions</span>
+
+		<div id="accordion-two">
+			<a><span>Frequently Asked Questions <i _ngcontent-afm-c4="" class="item-icon fa  fa-plus"></i></span> </a>
+		</div>
+	</div>
+	<nav id="left-faq-nav" class="nav flex-column">
+		{{#get "posts" filter="tag:faq-navigation+featured:true"  order="published_at asc"}}
+		<div class="nav-{{id}} flex-column left-nav-content">
+
+			{{#foreach posts visibility="all"}}
+			<ul class="parentfaqNav">
+				<li>
+					{{#if meta_title}}
+					<!--THE FIRST NODE-->
+				<li><a NodeId={{id}} class="nav-link" tag={{tags}} NodeTitle={{slug}}
+						href={{meta_title}}>{{excerpt}}</a></li>
+				{{else}}
+				<!--THE FIRST NODE-->
+				<span class="nav-link-title" tag={{tags}} NodeTitle={{slug}} id={{id}}>{{excerpt}}
+					<i _ngcontent-afm-c4="" class="item-icon fa fa-caret-right item-icon-desk"></i>
+					<!--Phone icon-->
+					<i _ngcontent-afm-c4="" class="item-icon fa  fa-plus item-icon-mobile"></i>
+				</span>
+
+
+				{{#get "posts" limit="all" filter="tag:faq-navigation+featured:false+(slug:'{{slug}}-1',slug:'{{slug}}-2',slug:'{{slug}}-3',slug:'{{slug}}-4',slug:'{{slug}}-5',slug:'{{slug}}-5',slug:'{{slug}}-6',slug:'{{slug}}-7',slug:'{{slug}}-8',slug:'{{slug}}-9',slug:'{{slug}}-10',slug:'{{slug}}-11',slug:'{{slug}}-12',slug:'{{slug}}-13',slug:'{{slug}}-14',slug:'{{slug}}-15',slug:'{{slug}}-16',slug:'{{slug}}-17',title:'{{slug}}-18',slug:'{{slug}}-19',slug:'{{slug}}-20')"
+				order="published_at desc"}}
+				<ul style="display:none;">
+					{{#foreach posts visibility="all"}}
+					{{#if meta_title}}
+					<!--THE SECOND NODE-->
+					<li><a NodeId={{id}} class="nav-link childrenTitle" NodeTitle={{slug}}
+							href={{meta_title}}>{{excerpt}}</a>
+					</li>
+					{{else}}
+					<li>
+						<span class="nav-link-title childrenTitle" NodeTitle={{slug}} id={{id}}>{{excerpt}}
+
+							<i _ngcontent-afm-c4="" class="item-icon  fa fa-caret-right item-icon-desk"></i>
+							<!--Phone children icon-->
+							<i _ngcontent-afm-c4="" class="item-icon childrenicon fa  fa-plus item-icon-mobile"></i>
+						</span>
+						<ul style="display:none;">
+							{{#get "posts" limit="all" filter="tag:faq-navigation+featured:false+(slug:'{{slug}}-1',slug:'{{slug}}-2',slug:'{{slug}}-3',slug:'{{slug}}-4',slug:'{{slug}}-5',slug:'{{slug}}-5',slug:'{{slug}}-6',slug:'{{slug}}-7',slug:'{{slug}}-8',slug:'{{slug}}-9',slug:'{{slug}}-10',slug:'{{slug}}-11',slug:'{{slug}}-12',slug:'{{slug}}-13',slug:'{{slug}}-14',slug:'{{slug}}-15',slug:'{{slug}}-16',slug:'{{slug}}-17',slug:'{{slug}}-18',slug:'{{slug}}-19',slug:'{{slug}}-20')"
+							order="published_at desc"}}
+							<!--THE THREE NODE-->
+							{{#foreach posts visibility="all"}}
+							<li><a NodeId={{id}} class="nav-link childrenlink" NodeTitle={{slug}}
+									href="{{meta_title}}">{{excerpt}}</a></li>
+							{{/foreach}}
+
+							{{/get}}
+						</ul>
+
+					</li>
+
+					{{/if}}
+
+					{{/foreach}}
+				</ul>
+				{{/get}}
+
+
+
+
+
+				</li>
+				{{/if}}
+			</ul>
+			{{/foreach}}
+
+			{{/get}}
+		</div>
+	</nav>
+
+</div>
+
+{{#contentFor "scripts"}}
+<script>
+	//Select the node
+	//Set the public methods easier to call while page link is "?block=="
+	function expandLeftNavCurrentItem(openNavUrl, divUrlPart) {
+		$("#left-nav-container a").each(function () {
+		
+			//remove the last / character
+			if (openNavUrl.endsWith('/')) {
+				openNavUrl = openNavUrl.substring(0, openNavUrl.length - 1)
+			}
+
+			/*
+							$(".nav-link-title").each(function () {
+			
+								if (!($(".nav-link-title").hasClass("expanded"))) {
+									$(".nav-link-title").parent().find(">ul").css("display", "none");
+									$(".nav-link-title").parent().find(">.nav.flex-column >ul").css("display", "none");
+			
+								}
+							});*/
+			//collopse all url
+			$('#left-nav-container ul').css("dissplay", "none");
+			$('#left-nav-container .expanded').removeClass("expanded");
+			$('#left-nav-container .active').removeClass("active");
+			$(this).find(".item-icon-desk").removeClass("fa-caret-down").addClass("fa-caret-right");
+			$(this).find(".item-icon-mobile").removeClass("fa-minus").addClass("fa-plus");
+
+
+
+
+			if ($(this).attr("href") !== undefined) {
+				/*
+				var openBlockId = util.getUrlParam('block');
+				var openflag = false;
+				if (openBlockId) {
+					if ($(this).attr("href").indexOf(window.location.pathname) > 0) {
+						openflag = true;
+					}
+				}*/
+				if (
+
+					(divUrlPart && $(this).attr("href").indexOf(openNavUrl) != -1 && $(this).attr("href").endsWith(divUrlPart)) ||
+					(!divUrlPart && $(this).attr("href").indexOf(openNavUrl) != -1)
+				) {
+					/*
+				   if(openflag)
+				   {
+					  $(this).remove("active");
+				   }else{
+						$(this).addClass("active");
+				   }*/
+
+					/*
+					 $(this).parent().parent().parent().parent().parent().parent().find("> .nav.flex-column > ul").css("display", "block");
+					 $(this).parent().parent().parent().parent().parent().parent().find("> .nav.flex-column > ul  > .nav-link-title").addClass("expanded");
+					 $(this).parent().parent().parent().parent().parent().parent().find("> .nav.flex-column > ul > .nav-link-title > .fa-caret-right").removeClass("fa-caret-right").addClass("fa-caret-down");
+					 $(this).parent().parent().parent().parent().parent().parent().find("> .nav-link-title").addClass("expanded");
+					 $(this).parent().parent().parent().parent().parent().parent().find("> .nav-link-title").addClass("active");
+					 $(this).parent().parent().parent().parent().parent().parent().find("> .nav-link-title > .fa-caret-right").removeClass("fa-caret-right").addClass("fa-caret-down");
+				 	
+					 $(this).parent().parent().parent().parent().find("> .nav-link-title").addClass("expanded");
+					 $(this).parent().parent().parent().parent().find("> .nav-link-title").addClass("active");
+					 $(this).parent().parent().parent().parent().find("> .nav-link-title .fa-caret-right").removeClass("fa-caret-right").addClass("fa-caret-down");
+
+					 $(this).parent().parent().parent().find("> .nav-link-title").addClass("expanded");
+					 $(this).parent().parent().parent().find("> .nav-link-title").addClass("active");
+					 $(this).parent().parent().parent().find("> .nav-link-title > .fa-caret-right").removeClass("fa-caret-right").addClass("fa-caret-down");
+					 $(this).parent().parent().parent().find('> ul').css("display", "block");
+					 */
+					$(this).addClass("active");
+					var ul = $(this).closest('ul').css("display", "block");
+					var linkTitle = ul.prev();
+					if (linkTitle.hasClass("nav-link-title")) {
+						linkTitle.addClass("expanded");
+						linkTitle.addClass("active");
+						linkTitle.find(".item-icon-desk").removeClass("fa-caret-right").addClass("fa-caret-down");
+						linkTitle.find(".item-icon-mobile").removeClass("fa-plus").addClass("fa-minus");
+					}
+					//Try to find parent nodes
+					var count = 0;
+					var ending = false;
+					while (!ending) {
+						ul = ul.parent().closest('ul');
+						console.log(ul.html())
+						if (ul) {
+
+							ul.css("display", "block");
+							var linkTitle = ul.prev();
+							if (linkTitle.hasClass("nav-link-title")) {
+								linkTitle.addClass("expanded");
+								linkTitle.addClass("active");
+								linkTitle.find(".item-icon-desk").removeClass("fa-caret-right").addClass("fa-caret-down");
+								linkTitle.find(".item-icon-mobile").removeClass("fa-plus").addClass("fa-minus");
+							}
+							//Got the root nav exist loop
+							if (ul.parent().parent().attr("id") == "left-nav") {
+								ending = true;
+							}
+						} else {
+							ending = true;
+						}
+
+						count++;
+						if (count > 3) {
+							ending = true;
+						}
+					}
+					return false;
+				}
+			}
+		});
+
+
+
+	}
+
+
+	$(document).ready(function () {
+
+
+
+		$("#accordion-one").click(function (event) {
+			$("#left-nav").css("display", "block");
+			if (window.expandnav) {
+				$("#left-nav").css("display", "none");
+				$(this).find('> a > span > .fa-minus').removeClass('fa-minus').addClass('fa-plus');
+				window.expandnav = false;
+			} else {
+				$(this).find('> a > span > .fa-plus').removeClass('fa-plus').addClass('fa-minus');
+				window.expandnav = true;
+			}
+
+		});
+
+
+		$("#accordion-two").click(function (event) {
+			$("#left-faq-nav").css("display", "block");
+			if (window.expandnavtwo) {
+				$("#left-faq-nav").css("display", "none");
+				$(this).find('> a > span > .fa-minus').removeClass('fa-minus').addClass('fa-plus');
+				window.expandnavtwo = false;
+			} else {
+				$(this).find('> a > span > .fa-plus').removeClass('fa-plus').addClass('fa-minus');
+				window.expandnavtwo = true;
+			}
+		});
+
+
+		/*
+				$('#left-nav-container .nav-children').click(function (event) {
+		
+					event.stopPropagation();
+					if ($(this).hasClass('expanded')) {
+						$(this).removeClass('expanded');
+						$(this).find('> span > .fa-minus').removeClass('fa-minus').addClass('fa-plus');
+						$(this).find('> span > .fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right');
+					} else {
+						$(this).addClass('expanded');
+						$(this).find('> span > .fa-plus').removeClass('fa-plus').addClass('fa-minus');
+						$(this).find('> span > .fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
+					}
+		
+				});
+		*/
+		//FAQ leftchildren click
+		$("#left-faq-nav a").click(function (event) {
+			event.stopPropagation();
+			setTimeout(expandLeftNavBaseOnUrl, 1000);
+
+		})
+
+
+		//NEW LEFT NAV
+		$('#left-nav-container .nav-link-title').click(function (event) {
+
+			event.stopPropagation();
+			event.preventDefault();
+			//var h = $(this).attr("id");
+
+			if ($(this).hasClass('expanded')) {
+				/*
+				$("#" + h + "").removeClass('expanded');
+				$("#" + h + "").parent().find(" > ul").css("display", "none");
+				$("#" + h + "").parent().find("> .nav.flex-column > ul").css("display", "none");
+				$("#" + h + "").find("> .fa-caret-down").removeClass("fa-caret-down").addClass("fa-caret-right");
+				$("#" + h + "").find("> .fa-minus").removeClass("fa-minus").addClass("fa-plus");
+				*/
+				$(this).removeClass('expanded');
+				$(this).next().css("display", "none");
+
+				$(this).find(".item-icon-desk").removeClass("fa-caret-down").addClass("fa-caret-right");
+				$(this).find(".item-icon-mobile").removeClass("fa-minus").addClass("fa-plus");
+
+			} else {
+				/*
+				$("#" + h + "").addClass('expanded');
+				$("#" + h + "").parent().find(" > ul").css("display", "block");
+				$("#" + h + "").parent().find("> .nav.flex-column > ul").css("display", "block");
+				$("#" + h + "").find("> .fa-caret-right").removeClass("fa-caret-right").addClass("fa-caret-down");
+				$("#" + h + "").find("> .fa-plus").removeClass("fa-plus").addClass("fa-minus");
+				*/
+				$(this).addClass('expanded');
+				$(this).next().css("display", "block");
+
+				$(this).find(".item-icon-desk").removeClass("fa-caret-right").addClass("fa-caret-down");
+				$(this).find(".item-icon-mobile").removeClass("fa-plus").addClass("fa-minus");
+			}
+
+		});
+
+		expandLeftNavBaseOnUrl();
+		function expandLeftNavBaseOnUrl() {
+			var openBlockId = util.getUrlParam('block');
+			//In search FAQ Body mode url patterner is /terminology-file/?block=5f5cffbc5b84c617789ffeaa, open nav in search_function.js
+			if (!openBlockId && window.location.pathname != '/help-center' && window.location.pathname != '/help-center/') {
+				var divUrlPart = false;
+				if (window.location.href.indexOf('#') != -1) {
+					divUrlPart = window.location.href.substr(window.location.href.indexOf('#') + 1)
+				}
+				expandLeftNavCurrentItem(window.location.pathname, divUrlPart);
+			}
+		}
+
+
+
+		function check() {
+			var userAgentInfo = navigator.userAgent;
+			var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+			var flag = true;
+			for (var v = 0; v < Agents.length; v++) {
+				if (userAgentInfo.indexOf(Agents[v]) > 0) {
+					flag = false;
+					break;
+				}
+			}
+			return flag;
+		}
+
+		var mTop = $("#left-nav-container").offset().top;
+		var totalHeight = $("#left-nav-container").parent().height();
+		$(window).scroll(function () {
+
+			function scrollFunction() {
+				var ScrollTop = $(this).scrollTop();
+				if (mTop < ScrollTop) {
+					$("#left-nav-container").css({ "margin-top": (ScrollTop - mTop + 100) + 'px', });
+
+					if (Number($("#left-nav-container").css('margin-top').replace('px', '')) > totalHeight) {
+						$("#left-nav-container").css({ "margin-top": (totalHeight - $("#left-nav-container").outerHeight()) + 'px', })
+
+					}
+				}
+				else {
+					$("#left-nav-container").css({ "margin-top": '0px', })
+				}
+			}
+			if (window.scrollFunctionTimer) {
+				clearTimeout(window.scrollFunctionTimer);
+				window.scrollFunctionTimer = false;
+			}
+
+			var leftnavHeight = $(".post-content").children().outerHeight() * 2 + $("#left-nav").outerHeight() + $("#left-faq-nav").outerHeight();
+			if (!check()) {
+				window.scrollFunctionTimer = false;
+				return;
+			}
+			if ($(".post-content .faq-section").outerHeight() <= leftnavHeight || $(".post-content ").html().length <= leftnavHeight) {
+
+				window.scrollFunctionTimer = false;
+				return;
+			} else {
+				//window.scrollFunctionTimer = setTimeout(scrollFunction,1000);
+				window.scrollFunctionTimer = false;
+				return;
+			}
+
+
+		});
+
+		/*
+		$.fn.smartFloat = function() {
+		 var position = function(element) {
+		
+		  var top = element.position().top, pos = element.css("position");
+		  var parenttop = element.parent().height();
+			$(window).scroll(function() {
+			
+			var scrolls = $(this).scrollTop();
+				if(scrolls > parenttop)
+				{
+					scrolls = parenttop-element.outerHeight();
+				}
+			
+				if (scrolls > top) {
+		
+					if (window.XMLHttpRequest) {
+						element.css({
+						position: "fixed",
+						top: 0
+						}); 
+					} else {
+					
+						element.css({
+						top: scrolls
+						}); 
+					}
+		
+				 }else {
+						element.css({
+						position: pos,
+						top: top
+					  }); 
+				}
+			});
+		};
+			return $(this).each(function() {
+			position($(this));      
+			});
+		};
+				$("#left-nav-container").smartFloat();*/
+
+
+
+	});
+
+</script>
+{{/contentFor}}

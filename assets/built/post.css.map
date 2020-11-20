@@ -1,0 +1,1 @@
+{"version":3,"sources":["post.css"],"names":[],"mappings":"AACA,gBAEC,UACD,CAEA,mBAEC,YACD,CACA,cAEC,MACD","file":"post.css","sourcesContent":["\n.gh-search-item\n{\n\tcolor:#000;\n}\n\n.post-full-content\n{\n\tdisplay:flex;\n}\n.post-content\n{\n\tflex:1;\n}"]}

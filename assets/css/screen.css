@@ -26,14 +26,27 @@ production stylesheet in assets/built/screen.css
 
 */
 
-
 /* 1. Global - Set up the things
 /* ---------------------------------------------------------- */
+/*
 @import "global.css";
+*/
+/* 1. Global - Set up the things
+/* ---------------------------------------------------------- */
+@import "bootstrap.min.css";
+@import "pcusa_global.css";
+@import "pcusa_header.css";
+@import "pcusa_footer.css";
+@import "post.css";
+@import "top_search.css";
+@import "top_nav.css";
+@import "left_nav.css";
+@import "faq.css";
+@import "litebox.css";
 
-body {
+/* body {
     background: #fff;
-}
+} */
 
 .img {
     display: block;
@@ -57,7 +70,7 @@ body {
 .site-wrapper {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    /* min-height: 100vh; */
 }
 
 .site-main {
@@ -383,7 +396,7 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
 }
 
 .nav {
-    position: absolute;
+    position: relative;
     z-index: 1000;
     display: flex;
     margin: 0 0 0 -12px;
@@ -401,9 +414,9 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
 .nav li a {
     position: relative;
     display: block;
-    padding: 12px 12px;
+    /* padding: 12px 12px; */
     color: #fff;
-    opacity: 0.8;
+    /* opacity: 0.8; */
     transition: opacity 0.35s ease-in-out;
 }
 
@@ -419,7 +432,7 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     bottom: 8px;
     left: 12px;
     height: 1px;
-    background: #fff;
+    /* background: #fff; */
     opacity: 0.25;
     transition: all 0.35s ease-in-out;
 }
@@ -929,9 +942,9 @@ make sure this only happens on large viewports / desktop-ish devices.
 
 .post-template .site-main,
 .page-template .site-main {
-    margin-top: 64px;
+    /* margin-top: 64px; */
     padding-bottom: 4vw;
-    background: #fff;
+    /* background: #fff; */
 }
 
 .post-full-header {
@@ -1017,14 +1030,28 @@ make sure this only happens on large viewports / desktop-ish devices.
 .post-full-content {
     position: relative;
     margin: 0 auto;
-    padding: 0 170px 6vw;
+    /* padding: 0 170px 6vw; */
     min-height: 230px;
-    font-family: Georgia, serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 2.0rem;
-    line-height: 1.6em;
-    background: #fff;
+    line-height: 1.4em;
+    background-color: #f4f4f4;
 }
+/** Line Height Begin **/
+.post-content p{
+    line-height: 2em;
+}
+.post-content li
+{
+	line-height:2em;
+}
+/** Line Height End **/
 
+/** page bottom padding Begin**/
+#left-nav.nav.flex-column,#left-faq-nav.nav.flex-column,.post-content{
+	padding-bottom: 30px;
+}
+/** page bottom padding End**/
 @media (max-width: 1170px) {
     .post-full-content {
         padding: 0 11vw;
@@ -1044,7 +1071,7 @@ make sure this only happens on large viewports / desktop-ish devices.
 }
 
 .no-image .post-full-content {
-    padding-top: 0;
+    padding-top: 15px;
 }
 
 .no-image .post-full-content:before,
@@ -1066,7 +1093,7 @@ make sure this only happens on large viewports / desktop-ish devices.
 .post-full-content blockquote,
 .post-full-comments,
 .footnotes {
-    margin: 0 0 1.5em 0;
+    /* margin: 0 0 1.5em 0; */
     min-width: 100%;
 }
 @media (max-width: 500px) {
@@ -1089,17 +1116,20 @@ make sure this only happens on large viewports / desktop-ish devices.
     margin: 0;
 }
 
-.post-full-content a {
-    color: var(--darkgrey);
+.post-full-content a:not(.accordion){
+    /* color: var(--darkgrey); */
     word-break: break-word;
     box-shadow: var(--darkgrey) 0 -1px 0 inset;
     transition: all 0.2s ease-in-out;
 }
-
-.post-full-content a:hover {
-    color: var(--blue);
+.accordion
+{
+    color: var(--darkgrey);
+}
+.post-full-content a:hover:not(.accordion) {
+    color:#1234ff;
     text-decoration: none;
-    box-shadow: var(--blue) 0 -1px 0 inset;
+    /* box-shadow: var(--blue) 0 -1px 0 inset; */
 }
 
 .post-full-content strong,
@@ -1119,9 +1149,16 @@ make sure this only happens on large viewports / desktop-ish devices.
 .post-full-content img,
 .post-full-content video {
     display: block;
-    margin: 1.5em auto;
+    margin: 4em auto;
     max-width: 1040px;
     height: auto;
+}
+post-content .BottomDistance
+{
+   margin-bottom: 0.5em;
+}
+#left-nav-container li{
+    line-height: 2rem;
 }
 @media (max-width: 1040px) {
     .post-full-content img,
@@ -1129,7 +1166,10 @@ make sure this only happens on large viewports / desktop-ish devices.
         width: 100%;
     }
 }
-
+.post-full-content.container
+{
+    display: block !important;
+}
 
 /* Full bleed images (#full)
 Super neat trick courtesy of @JoelDrapper
@@ -1241,7 +1281,7 @@ Usage (In Ghost editor):
 .post-full-content hr:after {
     content: "";
     position: absolute;
-    top: -15px;
+    /* top: -15px; */
     left: 50%;
     display: block;
     margin-left: -10px;
@@ -1267,14 +1307,19 @@ Usage (In Ghost editor):
 }
 
 .post-full-content h1 {
-    margin: 0.5em 0 0.4em;
+    /* margin: 0.5em 0 0.4em; */
     font-size: 4.2rem;
-    line-height: 1.25em;
+    line-height: 0.9em;
     font-weight: 600;
+}
+.post-full-content img:hover
+{
+    cursor: pointer;
 }
 .post-full-content p + h1 {
     margin-top: 0.8em;
 }
+
 @media (max-width: 800px) {
     .post-full-content h1 {
         font-size: 3.2rem;
@@ -1291,6 +1336,9 @@ Usage (In Ghost editor):
 .post-full-content p + h2 {
     margin-top: 0.8em;
 }
+.accordion span{
+    display: block;
+}
 @media (max-width: 800px) {
     .post-full-content h2 {
         margin-bottom: 0.3em;
@@ -1298,15 +1346,25 @@ Usage (In Ghost editor):
         line-height: 1.25em;
     }
 }
-
+#checklist
+{
+    font-size: 1.2rem;
+    font-weight: 700;
+}
 .post-full-content h3 {
     margin: 0.5em 0 0.2em;
     font-size: 2.5rem;
     line-height: 1.3em;
-    font-weight: 600;
+    /* font-weight: 600; */
 }
 .post-full-content h2 + h3 {
     margin-top: 0.7em;
+}
+.post-full-content .faq-Childern-Title
+{
+    margin: 1.5em 0 .4em;
+    font-size: 1.4rem;
+    font-weight: 700;
 }
 @media (max-width: 800px) {
     .post-full-content h3 {
@@ -1656,7 +1714,12 @@ Usage (In Ghost editor):
         left: 50px;
     }
 }
+@media (max-width: 580px) {
 
+	.post-full-content.container {
+		display: block!important;
+    }
+}
 @media (max-width: 650px) {
     .author-list-item .author-card {
         display: none;
@@ -2883,6 +2946,7 @@ Usage (In Ghost editor):
 
 /* 12. Dark Mode
 /* ---------------------------------------------------------- */
+/*
 @media (prefers-color-scheme: dark) {
     body {
         color: rgba(255, 255, 255, 0.75);
@@ -3109,4 +3173,58 @@ Usage (In Ghost editor):
     .subscribe-form .success .message-success {
         color: color-mod(var(--green) l(+5%) s(-5%));
     }
+}*/
+
+.outer
+{
+	padding:0;
+}
+.inner
+{
+	    max-width: initial;
+}
+.post-full-content .btn-primary {
+    color: #fff !important;
+    background-color: #007bff;
+    border-color: #007bff;
+    background-color: #2cace3;
+    padding: 0 20px;
+    line-height: 22.5pt;
+    height: 24pt;
+    border-radius: 0;
+    border: 1.5pt solid #2cace3;
+    text-align: center;
+}
+.back-to-top {
+    background-color: #2d343d;
+    border: none;
+    border-radius: 3px;
+    bottom: 40px;
+    position: fixed;
+    right: 20px;
+    width: 45px;
+    z-index: 999;
+    outline:unset !important;
+}
+
+.back-to-top i {
+    color: #fff;
+    font-size: 30px;
+    line-height: 28px;
+}
+@media only screen and (max-device-width: 900pt) {
+
+    .page-template .site-main, .post-template .site-main{
+        margin-top: 0;
+    }
+    .post-full-content h1 {
+        font-size: 2.2rem;
+    }
+    .post-full-content h2{
+        font-size: 1.5rem;
+    }
+    .post-full-content.container
+{
+    display: block !important;
+}
 }

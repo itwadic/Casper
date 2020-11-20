@@ -1,0 +1,14 @@
+
+.gh-search-item
+{
+	color:#000;
+}
+
+.post-full-content
+{
+	display:flex;
+}
+.post-content
+{
+	flex:1;
+}

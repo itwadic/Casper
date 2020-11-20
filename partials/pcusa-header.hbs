@@ -1,0 +1,1020 @@
+<!--style>
+    section {
+    outline: 2px dashed red;
+    z-index: 1000;
+    }
+    
+    section::before {
+    position: absolute;
+    z-index: 1000;
+    color: red;
+    background-color: black;
+    padding: 4px;
+    margin-top: 8px;
+    margin-left: 8px;
+    content: attr(data-title);
+    }
+    </style-->
+
+<!--
+    <section data-title="HEADER">
+    -->
+<style>
+    .blog-post h4 {
+        font-size: 11pt;
+    }
+
+    .blog-post small,
+    .blog-post p {
+        font-size: 9pt;
+        color: black;
+    }
+
+    header h4 {
+        font-weight: bold;
+        margin-bottom: 0;
+        font-size: 1.4rem;
+    }
+
+    header a[href="/"] {
+        color: darkred !important;
+    }
+
+    header h4:not(:first-child) {
+        padding-top: 8px;
+    }
+
+    header .product-row:not(.no-border) {
+        margin-top: 32px;
+        border-right: 2px solid whitesmoke;
+    }
+
+    header .product-row.no-border {
+        margin-top: 32px;
+    }
+
+    header .main-nav {
+        margin-right: 0;
+    }
+
+    .account-row {
+        margin-right: 0;
+    }
+
+    header .main-nav a.navigation:hover {
+        border-bottom: 2px solid var(--highlight2);
+    }
+
+    header .main-nav a.navigation:hover svg {
+        color: var(--highlight2) !important;
+    }
+
+    .row.main-nav .col {
+        text-align: center;
+        flex: 0 0 11.42%;
+        max-width: 11.42%;
+        height: 40px;
+    }
+
+    .row.main-nav .col a {
+        padding: 12px 0 0;
+        line-height: 1;
+        margin: 5px auto 8px;
+    }
+
+    .row.main-nav .col:hover {
+        background-color: #F4F4F4
+    }
+
+    .mobile-navigation-nav-catalog>.card-body.active {
+        border: 1px solid var(--highlight);
+        box-shadow: none;
+    }
+
+    #mobile-navigation-top-links {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #mobile-navigation .mobile-navigation-nav-catalog .drop-shadow-small>a {
+        color: black !important;
+        font-weight: 600;
+    }
+
+    #mobile-navigation-top-links>a {
+        color: var(--highlight) !important;
+    }
+
+
+
+    .mobile-navigation-nav-catalog>div:not(.card-body) .card-body {
+        border-bottom: none;
+    }
+
+    .mobile-navigation-nav-catalog>div:not(.card-body) .card-body:last-child {
+        border-bottom: .05vh solid rgba(140, 140, 140, 1);
+    }
+
+    .mobile-navigation-nav-catalog>div:not(.card-body) .card-body a {
+        font-weight: normal;
+    }
+
+    #mobile-navigation .no-bottom-border>.card-body {
+        border-bottom: none;
+    }
+
+    header .mobile-navigation-container {
+        max-height: calc(100vh - var(--header-size));
+        overflow-y: scroll;
+    }
+
+    #custom_gcs_input[readonly] {
+        background-color: white;
+    }
+
+
+    @media (min-width: 960pt) {
+        #desktop-header .main-nav-left {
+            transform: translate(-20pt, 0);
+        }
+
+        #desktop-header .logo {
+            transform: translate(-18pt, 0);
+        }
+    }
+
+    @media (min-width: 1050pt) {
+        #desktop-header .main-nav-left {
+            transform: translate(-28pt, 0);
+        }
+    }
+</style>
+
+<script>
+    var PageHeader = function (ui) {
+        var self = this;
+        this.ui = ui;
+        this.init();
+        $('.pageHeader-loginStatus').click(function (event) {
+            if (self.isLogin) {
+                event.preventDefault();
+                event.stopPropagation();
+                //window.location.href="/Shopping/Login.aspx"
+               // window.location.reload();
+            }
+
+        });
+    };
+    PageHeader.prototype.init = function () {
+        var self = this;
+        this.loginCheck();
+        this.loadCartInfo();
+
+        $('.pageHeader-loginStatus').click(function (event) {
+            if (self.isLogin) {
+                event.preventDefault();
+                event.stopPropagation();
+                PCUSAService.callPricingToolServiceAPI('Logout', "", function (result) {
+                    //window.location.reload();
+                }, function (error) {
+                });
+
+                return false;
+            } else {
+
+                return true;
+            }
+
+        });
+    }
+    PageHeader.prototype.loadCartInfo = function () {
+        return;
+        var self = this;
+        PCUSAService.callWebAPIServiceAPI('GetCartInfo', "", function (result) {
+
+            if (result.CartItems > 0) {
+                if (self.ui.find('.pageHeader-viewCart').hasClass('pageHeader-viewCart-mobile')) {
+                    //self.ui.find('.pageHeader-viewCart').text(result.CartItems);
+                } else {
+                    self.ui.find('.pageHeader-viewCart').text('View Cart (' + result.CartItems + ')');
+                }
+            }
+        }, function (error) {
+
+        });
+
+    }
+    PageHeader.prototype.loginCheck = function () {
+        var self = this;
+        var loginItem = localStorage.getItem("islogin")=="true" ? true:false;
+        self.isLogin = loginItem;
+        if (self.isLogin) {
+            self.ui.find('.pageHeader-loginStatus').text('Logout');
+           // window.location.reload();
+            self.ui.find('.pageHeader-loginStatus').attr('href', '/Shopping/Login.aspx');
+            
+        } else {
+            self.ui.find('.pageHeader-loginStatus').text('Login');
+            self.ui.find('.pageHeader-loginStatus').attr('href', '/Shopping/Login.aspx');
+        }
+        // added for change the live chat button image
+        var intervalIndex = 0;
+        var cbiInt = setInterval(function () {
+            if ($("#wsa_embed") && $("#wsa_embed").css("background-image") && $("#wsa_embed").css("background-image") != "") {
+                if (self.isLogin)
+                    $("#wsa_embed").css("background-image",
+                        "url(https://images.websitealive.com/images/hosted/upload/2016-04-19_1461030897199_yjqhk.png)");
+                else
+                    $("#wsa_embed").css("background-image",
+                        "url(https://images.websitealive.com/images/hosted/upload/2017-04-21_1492754324431_bittnhcxr.png)");
+                if (intervalIndex++ > 40)
+                    clearInterval(cbiInt);
+            }
+        }, 100);
+    } // End function prototype.loginCheck
+    $(function () {
+        new PageHeader($('.pageHeader'));
+        $('#custom_gcs_input').keydown(function (e) {
+            var theEvent = e || window.event;
+            var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+            if (code == 13) {
+                $('input.gsc-input').val($('#custom_gcs_input').val());
+                $('button.gsc-search-button').trigger('click');
+                return false;
+            }
+            return true;
+        });
+
+        initMobileNav();
+    });
+
+    function initMobileNav() {
+        $('.mobile-navigation-nav-catalog > .card-body a').click(function () {
+            window.topMobileNav_CurrentClickItem = $(this).attr('aria-controls');
+            $('.mobile-navigation-nav-catalog > .card-body.active').removeClass('active');
+
+            $('.mobile-navigation-nav-catalog.no-bottom-border').removeClass('no-bottom-border');
+            $(this).closest('.mobile-navigation-nav-catalog').prev().addClass('no-bottom-border')
+
+            if ($(this).attr('aria-expanded') != 'true') {
+                $(this).parent().addClass('active');
+            }
+            //$(this).parent().addClass('active');
+            //Togger other menu
+            $('.mobile-navigation-nav-catalog > .card-body a').each(function (index, item) {
+                if ($(item).attr('aria-controls') == window.topMobileNav_CurrentClickItem) {
+                    return true;
+                }
+                $(item).parent().removeClass('active');
+                $(item).attr('aria-expanded', 'false');
+                $(item).parent().next().removeClass('show');
+                //$(item).trigger('click');
+            });
+        });
+        //Disable document body scroll after menu open
+        $('#mobile-hamburger').on('touchend', function () {
+            $('body').css('overflow', 'hidden');
+        });
+        $('#mobile-hamburger-close').on('touchend', function () {
+            $('body').css('overflow', 'initial');
+        })
+    }
+
+</script>
+<style>
+    .gsc-control-searchbox-only {
+        display: none !important;
+    }
+
+    .popup {
+        z-index: 100001;
+    }
+
+    .covid {
+        width: 100%;
+        background-color: #FAEE01;
+        text-align: center;
+        color: black;
+        padding: 2px;
+    }
+</style>
+<header class="d-none d-xl-block" style="height: auto" id="desktop-header">
+    <div class="pl-0 header" style="height: auto;padding-bottom: 0px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <a href="/">
+                        <img style="width: 80%;height: auto;" class="logo"
+                            src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038507/pcusa/V2/printingcenterusa-logo.jpg"
+                            alt="Booklet & Calendars printing from Printing Center USA" /></a>
+                </div>
+                <div class="col text-center">
+                    <img style="height: 76px; position: absolute; left: 46%; top: -5px" class=""
+                        src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1578539556/pcusa/V4/Book-printing/Navigation/50-Years.png" />
+                </div>
+                <div class="col-5 pageHeader">
+                    <div class="col-8" style="
+                            margin-right: 0;
+                            right: 0;
+                            position: relative;
+                            padding-right: 0;
+                             margin-left: auto; margin-right: 0
+                        ">
+                        <div class="row account-row" style="justify-content: space-between;">
+                            <div class="col-12"
+                                style="display: flex; flex-direction: row; justify-content: space-between;padding-right: 0;">
+                                <div class="text-center">
+                                    <a href="/MyAccount/Designes.aspx" class="category-link">My Designs</a>
+                                </div>
+                                <div class="text-center">
+                                    <a href="/MyAccount/Index.aspx" class="category-link">My Account</a>
+                                </div>
+                                <div class="text-center">
+                                    <a href="/Shopping/Login.aspx" class="pageHeader-loginStatus category-link"
+                                        title="login"></a>
+                                </div>
+                                <div class="text-center">
+                                    <a href="/Shopping/ShoppingCart.aspx" class="pageHeader-viewCart category-link">Cart
+                                        <i class="far fa-shopping-cart"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="text-right"
+                                style="width: 100%;text-align: right; position:relative; bottom: -2px">
+                                <a class="call" style="font-size: 15pt;" href="tel:800-995-1555">Call</a>
+                                <a class="call-number" href="tel:800-995-1555"
+                                    style="font-weight: bold; font-size: 18.2pt">800-995-1555</a>
+                                <a style="display: none;" href="#/" onclick="$('#wsa_image_dock').click()" class="fa-layers fa-fw">
+                                    <i class="fas fa-comment-alt fa-2x" style="color: yellow;font-size: 32px;"
+                                        aria-hidden="true"></i>
+                                    <span class="fa-layers-text"
+                                        style="color: var(--text-std);font-size: 8pt;top: 8px;right: 0;position: absolute;">CHAT</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row main-nav">
+                <div class="col-10">
+                    <div class="row main-nav-left"
+                        style="height: 100%;justify-content: space-between;padding-left: 15px;padding-top: 6px;">
+                        <div class="col" style="flex: 0 0 20%; max-width: 20%;">
+                            <div class="dropdown w-100" style="display:flex; align-items:center;">
+                                <a href="javascript:void(0);" class="dropdown-trigger navigation"
+                                    id="all-products-dropdown">
+                                    ALL PRODUCTS<i class="fas fa-chevron-down ml-2" style="color: #2CACE3"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <a href="/printing/book-printing" class="navigation">BOOKS</a>
+                        </div>
+                        <div class="col">
+                            <a href="/printing/booklet-printing" class="navigation">BOOKLETS</a>
+                        </div>
+                        <div class="col">
+                            <a href="/printing/calendar-printing" class="navigation">CALENDARS</a>
+                        </div>
+                        <div class="col">
+                            <a href="/printing/catalog-printing" class="navigation">CATALOGS</a>
+                        </div>
+                        <div class="col">
+                            <a href="/printing/cheap-brochure-printing" class="navigation">BROCHURES</a>
+                        </div>
+                        <div class="col">
+                            <a href="https://info.printingcenterusa.com/request-samples" target="_blank"
+                                class="navigation">SAMPLES</a>
+                        </div>
+                        <div class="col">
+                            <div class="dropdown w-100" style="display:flex; align-items:center;">
+                                <a class="dropdown-trigger navigation" href="javascript:void(0);" id="help-dropdown">
+                                    HELP<i class="fas fa-chevron-down ml-2" style="color: #2CACE3"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2" style="padding-left: 3px; padding-right: 0">
+                    <!--<input class="w-100" type="text" placeholder="Search">-->
+                    <gcse:searchbox-only enablehistory="true" resultsurl="/Result.aspx" newwindow="false"
+                        queryparametername="q">
+                    </gcse:searchbox-only>
+                    <div style="position:relative; bottom: -4px; margin-bottom: -2px">
+                        <input type="text" class="form-control" placeholder="Search"
+                            style="padding-right:43px;padding-top:0;padding-bottom:0;" id="custom_gcs_input" readonly
+                            onfocus="this.removeAttribute('readonly')" />
+                        <span class="fa fa-search"
+                            style="color:lightgray; right:10px;top:30%;position:absolute;"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="m-0 drop-shadow product-dropdown collapse" id="all-products"
+                style="z-index: 1000;padding-left: 18px; position: absolute;">
+                <div class="card p-0 card-body products" style="width: 100%">
+                    <div class="row container m-auto">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-4 product-row">
+                                    <h4>Print Products</h4>
+                                    <a href="/printing/booklet-printing">Booklets</a>
+                                    <a href="/printing/bookmark-printing">Bookmarks</a>
+                                    <a href="/printing/book-printing">Books</a>
+                                    <a href="/printing/brochure-printing">Brochure Booklets</a>
+                                    <a href="/printing/brochure-printing">Brochures</a>
+                                    <a href="/printing/business-card-printing">Business Cards</a>
+                                    <a href="/printing/calendar-printing">Calendars</a>
+                                    <a href="/printing/catalog-printing">Catalogs</a>
+                                    <a href="/printing/coloring-book-printing">Coloring Books</a>
+                                    <a href="/printing/color-copies-printing">Color Copies</a>
+                                    <a href="/printing/comic-book-printing">Comic Books</a>
+                                    <a href="/printing/door-hanger-printing">Door Hangers</a>
+                                    <a href="/printing/dvd-case-printing">DVD Covers</a>
+                                    <a href="/printing/envelope-printing">Envelopes</a>
+                                    <a href="/printing/flyer-printing">Flyers</a>
+                                    <a href="/printing/greeting-card-printing">Greeting Cards</a>
+                                    <a href="/printing/letterhead-printing">Letterhead</a>
+                                    <a href="/lookbook-printing">Lookbooks</a>
+                                    <a href="/printing/magazine-printing">Magazines</a>
+                                </div>
+                                <div class="col-4 product-row pt-4">
+                                    <a href="/manual-printing">Manuals</a>
+                                    <a href="/printing/menu-printing">Menus</a>
+                                    <a href="/printing/newsletter-printing">Newsletters</a>
+                                    <a href="/printing/note-card-printing">Note Cards</a>
+                                    <a href="/printing/notepads-printing">Notepads</a>
+                                    <a href="/perfect-bound-book-printing">Perfect Bound Books</a>
+                                    <a href="/photo-book-printing">Photo Books</a>
+                                    <a href="/printing/postcard-printing">Postcards</a>
+                                    <a href="/printing/poster-printing">Posters</a>
+                                    <a href="/printing/program-printing">Programs</a>
+                                    <a href="/printing/presentation-folder-printing">Presentation Folders</a>
+                                    <a href="/printing/rack-brochure-printing">Rack Brochures</a>
+                                    <a href="/printing/rack-card-printing">Rack Cards</a>
+                                    <a href="/saddle-stitch-booklet-printing">Saddle Stitch Books</a>
+                                    <a href="/printing/sell-sheet-printing">Sell Sheets</a>
+                                    <a href="/spiral-bound-book-printing">Spiral Bound Books</a>
+                                    <a href="/wireo-bound-book-printing">Wire-O Bound Books</a>
+                                    <a href="/year-book-printing">Yearbooks</a>
+                                    <a href="/printing/zine-printing">Zines</a>
+                                </div>
+                                <div class="col-4 product-row">
+                                    <h4>Photo Books</h4>
+                                    <a href="/photo-book-printing">Soft Cover Photo Books</a>
+                                    <h4>Templates</h4>
+                                    <a href="/booklet-templates">Booklets</a>
+                                    <a href="/brochure-templates">Brochures</a>
+                                    <a href="/printing/calendar-grids">Calendars</a>
+                                    <a href="/coloring-book-templates">Coloring Books</a>
+                                    <a href="/flyer-templates">Flyers</a>
+                                    <a href="/greeting-card-templates">Greeting Cards</a>
+                                    <a href="/magazine-templates">Magazines</a>
+                                    <a href="/postcard-templates">Postcards</a>
+                                    <a href="/program-templates">Programs</a>
+                                    <a href="https://info.printingcenterusa.com/free-template-links"
+                                        style="color:#02a3e9;" target="_blank" rel="noopener">All Templates</a>
+                                    <h4>Solutions</h4>
+                                    <a href="/printing/services-art-and-entertainment">Art &amp; Entertainment</a>
+                                    <a href="/business-printing">Business</a>
+                                    <a href="/printing/services-schools-education">Schools &amp; Education</a>
+                                    <a href="/printing/services-nonprofit">Non Profit</a>
+                                </div>
+                                <div class="col-6">
+                                    <a style="background-color:#4CAADE;margin:15pt 0"
+                                        class="button-main text-white font-weight-bold"
+                                        href="https://info.printingcenterusa.com/request-samples" target="_blank">Order
+                                        a Free Sample Pack
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 product-row no-border">
+                            <h4>Services</h4>
+                            <a href="/bindery">Bindery Options</a>
+                            <a href="/printing/mailing-services">Mailing Services</a>
+                            <a href="https://info.printingcenterusa.com/free-template-links" target="_blank">Online
+                                Design</a>
+                            <a href="/digital/short-run-printing">Short Run</a>
+                            <a href="/printing/wholesale-printing">Wholesale Printing</a>
+                            <h4>Interesting Finds</h4>
+                            <div class="header-blog-list">
+                                <a class="row blog-post d-flex" target="_blank"
+                                    href="https://web.printingcenterusa.com/blog/booklet-printing-basics-2020">
+                                    <div class="col-4 d-none d-md-block">
+                                        <img class="" style="width: 100%; display: block;"
+                                            src="https://res.cloudinary.com/printingcenterusa-com/image/upload/v1585771569/pcusa/V4/header/booklet-printing-basics.png">
+                                    </div>
+                                    <div class="col-12 col-lg-8">
+                                        <div class="row">
+                                            <h4 class="col blog-header">Book Printing Basics</h4>
+                                        </div>
+                                        <div class="row">
+                                            <small class="col">By Taylor Helfrich</small>
+                                        </div>
+                                        <div class="row">
+                                            <p class="col">
+                                                If you’re working on your next booklet printing project for 2020...
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a class="row blog-post d-flex" target="_blank"
+                                    href="https://web.printingcenterusa.com/blog/standard-postcard-sizes">
+                                    <div class="col-4 d-none d-md-block">
+                                        <img class="" style="width: 100%; display: block;"
+                                            src="https://res.cloudinary.com/printingcenterusa-com/image/upload/v1585771568/pcusa/V4/header/standard-postcard-sizes.png">
+                                    </div>
+                                    <div class="col-12 col-lg-8">
+                                        <div class="row">
+                                            <h4 class="col blog-header">Standard Postcard Sizes</h4>
+                                        </div>
+                                        <div class="row">
+                                            <small class="col">By Amber Gauthier</small>
+                                        </div>
+                                        <div class="row">
+                                            <p class="col">
+                                                Postcard printing can be a vital piece of your marketing strategy...
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a class="row blog-post d-flex" target="_blank"
+                                    href="https://web.printingcenterusa.com/blog/book-layout-9-easy-steps">
+                                    <div class="col-4 d-none d-md-block">
+                                        <img class="" style="width: 100%; display: block;"
+                                            src="https://res.cloudinary.com/printingcenterusa-com/image/upload/v1585771567/pcusa/V4/header/book-layout_9-steps.png">
+                                    </div>
+                                    <div class="col-12 col-lg-8">
+                                        <div class="row">
+                                            <h4 class="col blog-header">9 Easy Steps for Designing the Perfect Layout
+                                            </h4>
+                                        </div>
+                                        <div class="row">
+                                            <small class="col">By Taylor Helfrich</small>
+                                        </div>
+                                        <div class="row">
+                                            <p class="col">
+                                                At PrintingCenterUSA, we take it upon ourselves to make the entire...
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="row blog-button">
+                                <div class="col text-center blog-col">
+                                    <a style="margin-top:10px;" href="https://web.printingcenterusa.com/blog/"
+                                        class="button-main text-white font-weight-bold" target="_blank">See All Blog
+                                        Posts</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3" style="padding-top: 24px; padding-bottom: 24px;opacity:0;">
+                            <div class="try-design-tool">
+                                <div class="row">
+                                    <div class="col blog-col">
+                                        <img class="lazyload"
+                                            src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038507/pcusa/V2/online-design-tool.png"
+                                            style="width: 100%; height: auto">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="text-center design-header design-first">
+                                            Don't have a design program?
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="text-center design-header design-second" style="font-size: 27pt;">
+                                            Try Our Free Online Designer!
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="text-center design-header design-third">
+                                            Get your print-ready PDF today!
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-1"></div>
+                                            <div class="col-5" style="padding-right:0px;">
+                                                <a href="javascript:void(0)"
+                                                    style="background-color:#4CAADE; padding: 1vh;margin: 5px;cursor: pointer;"
+                                                    class="button-main text-white font-weight-bold"
+                                                    onclick="return ShowCalendarPopup('divCalendarPopup', true);">Photo<br>
+                                                    Calendars</a>
+                                            </div>
+                                            <div class="col-5" style="padding-left:0px;">
+                                                <a href="javascript:void(0)"
+                                                    style="background-color:#4CAADE; padding: 1vh;margin: 5px;cursor: pointer;"
+                                                    class="button-main text-white font-weight-bold"
+                                                    onclick="return ShowGreetingPopup('',true)">Greeting<br>
+                                                    Cards</a>
+                                            </div>
+                                            <div class="col-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-1"></div>
+                                            <div class="col-10">
+                                                <a href="javascript:void(0)"
+                                                    style="background-color:#4CAADE; padding: 1vh;margin: 5px;cursor: pointer;"
+                                                    class="button-main text-white font-weight-bold"
+                                                    onclick="return ShowCatalogPopup('divCatalogPopup', true);">Books,
+                                                    Booklets & <br>Photo Books</a>
+                                            </div>
+                                            <div class="col-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="m-0 drop-shadow collapse dropdown-content" style="z-index: 1000;" tabindex="0"
+                id="help-content">
+                <table style="font-size: 12px; line-height: 14px; font-weight: 300;" tabindex="0">
+                    <tbody>
+                        <tr style="border: none;">
+                            <td class="center-align" style="vertical-align: top; width: 20%;text-align: center;">
+                                <a href="javascript:void(0)" onclick="$('#wsa_image_dock').click()">
+                                    <img class="responsive-img"
+                                        src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038507/pcusa/V2/help-dropdown_Live-Chat-icon.png">
+                                    <p></p>
+                                    <h5 style="color: #4599DE;">Live Chat</h5>
+                                </a>
+                                <b style="font-weight: 600;">Hours of Operation:</b><br>
+                                Monday-Friday 7AM-6PM
+                            </td>
+                            <td class="center-align" style="vertical-align: top; width: 20%;text-align: center;">
+                                <a href="mailto:support@printingcenterusa.com" target="_blank">
+                                    <img class="responsive-img"
+                                        src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038507/pcusa/V2/help-dropdown_Email-icon.png">
+                                    <p></p>
+                                    <h5 style="color: #4599DE;">Contact by Email</h5>
+                                    <span style="">support@printingcenterusa.com</span>
+                                </a>
+                            </td>
+                            <td class="center-align" style="vertical-align: top; width: 20%;text-align: center;">
+                                <a href="tel:800-995-1555">
+                                    <img class="responsive-img"
+                                        src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038507/pcusa/V2/help-dropdown_Call-icon.png"">
+                                        <p></p>
+                                        <h5 style=" color: #4599DE;">
+                                    Need Help? Call Today!<br>
+                                    <span class="font-weight-bold">800.995.1555</span>
+                                    </h5>
+                                </a>
+                                <b style="font-weight: 600;">Hours of Operation:</b><br>
+                                Monday-Friday 7AM-6PM
+                            </td>
+                            <td class="center-align" style="vertical-align: top; width: 20%;text-align: center;">
+                                    <a href="/help-center" target="_blank">
+                                        <img class="responsive-img" src="https://res.cloudinary.com/printingcenterusa-com/image/upload/v1585772585/pcusa/V4/header/help-center-image.png">
+                                        <p></p>
+                                        <h5 style="color: #4599DE;">
+                                            Help Center
+                                        </h5>
+									</a>
+									<div class="row text-left" style="width: 90% !important; margin: 0 0 0 35px;">
+										<div class="col-6">
+											<a class="" href="/help-center/file-preparation/">File Preparation</a>
+                                        </div>
+                                        <div class="col-6">
+											<a class="" href="/help-center/proofing-file/">Proofing</a>
+                                        </div>
+                                        <div class="col-6">
+											<a class="" href="/help-center/ordering/">Ordering</a>
+                                        </div>
+                                        <!-- div class="col-6">
+											<a class="" href="https://www.printingcenterusa.com/help-center?p=/help/page/shipping-turnaround/turnaround">Shipping</a>
+										</div -->
+										<div class="col-6">
+											<a class="" href="/help-center/uploading-file/">Uploading</a>
+                                        </div>
+										<div class="col-6">
+											<a class="" href="/help-center/">&amp; More!</a>
+										</div>
+									</div>
+                                </td>
+                            <td class="center-align" style="vertical-align: top; width: 20%;text-align: center;">
+                                <a href="https://info.printingcenterusa.com/free-template-links" target="_blank">
+                                    <img class="responsive-img"
+                                        src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1577238702/pcusa/V4/Book-printing/Navigation/Templates-Image_Help-Navigation_68x77.png">
+                                    <p></p>
+                                    <h5 style="color: #4599DE;">
+                                        Templates
+                                    </h5>
+                                </a>
+                                <div class="col-8" style="margin: 0 auto;">
+                                    <div class="row" style="text-align: left;">
+                                        <div class="col-6">
+                                            <a href="/booklet-templates" style="">
+                                                Books
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="/catalog-templates" style="">
+                                                Catalogs
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="/booklet-templates" style="">
+                                                Booklets
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="/printing/calendar-grids" style="">
+                                                Calendars
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="/brochure-templates" style="">
+                                                Brochures
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+<header class="d-xl-none" id="mobile-header">
+    <div class="row pl-0 header drop-shadow-small"
+        style="display: flex; justify-content: space-between;align-items: center;overflow:hidden; min-height: 3rem;flex-wrap:nowrap;">
+        <div style="height: 100%; width: auto;flex:1;overflow:hidden;">
+            <a href="/">
+                <img src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1571038507/pcusa/V2/printingcenterusa-logo.jpg"
+                    style="max-height: 100%;max-width:100%;"
+                    alt="Booklet & Calendars printing from Printing Center USA" />
+            </a>
+        </div>
+        <div class="header-icons" style="display: block;position: initial;padding:0;width:80pt;margin-left:8pt;">
+            <a href="tel:800-995-1555"><i class="far fa-phone-alt"></i></a>
+            <a href="/Shopping/ShoppingCart.aspx"><i class="far fa-shopping-cart"></i></a>
+            <a id="mobile-hamburger" data-toggle="collapse" href="#mobile-navigation" aria-expanded="false"
+                aria-controls="mobile-navigation" class="mobile-nav-header"><i class="far fa-bars"></i>
+            </a>
+            <a id="mobile-hamburger-close" data-toggle="collapse" href="#mobile-navigation" aria-expanded="false"
+                aria-controls="mobile-navigation" class="mobile-nav-header"><i class="fas fa-times-square"></i>
+            </a>
+        </div>
+    </div>
+    <div id="mobile-navigation" class="collapse in mobile-navigation-container" role="tabpanel"
+        aria-labelledby="mobile-navigation">
+        <div class="col">
+            <div class="row text-center">
+                <nav class="mobile-nav-group" id="mobile-nav" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div id="mobile-navigation-top-links" class="card-body drop-shadow-small pageHeader">
+                            <a class="mobile-nav-item" href="/MyAccount/Designes.aspx">My Designs</a>
+                            <a class="mobile-nav-item" href="/MyAccount/Index.aspx">My Account</a>
+                            <a class="mobile-nav-item pageHeader-loginStatus" href="#"></a>
+                            <a class="mobile-nav-item" href="/Shopping/ShoppingCart.aspx">
+                                Cart
+                                <i class="far fa-shopping-cart"></i>
+                                <span class="pageHeader-viewCart pageHeader-viewCart-mobile badge badge-warning"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card mobile-navigation-nav-catalog">
+                        <div class="card-body drop-shadow-small" role="tab" id="catalogs-group">
+                            <a data-toggle="collapse" data-parent="#mobile-nav" href="#catalogs" aria-expanded="false"
+                                aria-controls="catalogs" class="mobile-nav-header">
+                                Print Products
+                            </a>
+                        </div>
+                        <div id="catalogs" class="collapse in" role="tabpanel" aria-labelledby="catalogs">
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/booklet-printing">Booklets</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/bookmark-printing">Bookmarks</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/book-printing">Books</a>
+                            </div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/brochure-printing">Brochure Booklets</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/brochure-printing">Brochures</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/business-card-printing">Business Cards</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/calendar-printing">Calendars</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/catalog-printing">Catalogs</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/coloring-book-printing">Coloring Books</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/color-copies-printing">Color Copies</a></div>
+
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/comic-book-printing">Comic
+                                    Books</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/door-hanger-printing">Door
+                                    Hangers</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/dvd-case-printing">DVD
+                                    Covers</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/envelope-printing">Envelopes</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/flyer-printing">Flyers</a>
+                            </div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/greeting-card-printing">Greeting Cards</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/letterhead-printing">Letterhead</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/lookbook-printing">Lookbooks</a>
+                            </div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/magazine-printing">Magazines</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/manual-printing">Manuals</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/menu-printing ">Menus</a>
+                            </div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/newsletter-printing">Newsletters</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/note-card-printing">Note
+                                    Cards</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/notepads-printing">Notepads</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/perfect-bound-book-printing">Perfect Bound Books</a></div>
+                            <div class="card-body"> <a href="/photo-book-printing">Photo Books</a></div>
+
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/presentation-folder-printing">Presentation Folders</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/program-printing">Programs</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/postcard-printing">Postcards</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/poster-printing">Posters</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/rack-brochure-printing">Rack Brochures</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/rack-card-printing">Rack
+                                    Cards</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/saddle-stitch-booklet-printing">Saddle Stitch Books</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/sell-sheet-printing">Sell
+                                    Sheets</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/spiral-bound-book-printing">Spiral
+                                    Bound Books</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/wireo-bound-book-printing">Wire-O
+                                    Bound Books</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/year-book-printing">Yearbooks</a>
+                            </div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/zine-printing">Zines</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mobile-navigation-nav-catalog">
+                        <div class="card-body drop-shadow-small" role="tab" id="photobooks-group">
+                            <a data-toggle="collapse" href="#photobooks" aria-expanded="false"
+                                aria-controls="photobooks" class="mobile-nav-header">
+                                Photo Books
+                            </a>
+                        </div>
+                        <div id="photobooks" class="collapse" role="tabpanel" aria-labelledby="photobooks">
+                            <div class="card-body"><a class="mobile-nav-item" href="/photo-book-printing">Soft Cover
+                                    Photo Books</a></div>
+                        </div>
+                    </div>
+                    <div class="card mobile-navigation-nav-catalog">
+                        <div class="card-body drop-shadow-small" role="tab" id="templates-group">
+                            <a data-toggle="collapse" href="#templates" aria-expanded="false" aria-controls="bi"
+                                class="mobile-nav-header">
+                                Templates
+                            </a>
+                        </div>
+                        <div id="templates" class="collapse" role="tabpanel" aria-labelledby="templates">
+                            <div class="card-body"><a class="mobile-nav-item" href="/booklet-templates">Booklets</a>
+                            </div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/brochure-templates">Brochures</a>
+                            </div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/calendar-grids">Calendars</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/coloring-book-templates">Coloring
+                                    Books</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/flyer-templates">Flyers</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/greeting-card-templates">Greeting
+                                    Cards</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/magazine-templates">Magazines</a>
+                            </div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/postcard-templates" "="">Postcards</a></div>
+                                <div class=" card-body"><a class="mobile-nav-item"
+                                        href="/program-templates">Programs</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="https://info.printingcenterusa.com/free-template-links" style="color:#02a3e9;"
+                                    target="_blank" rel="noopener">All Templates</a></div>
+                        </div>
+                    </div>
+                    <div class="card mobile-navigation-nav-catalog">
+                        <div class="card-body drop-shadow-small" role="tab" id="solutions-group">
+                            <a data-toggle="collapse" href="#solutions" aria-expanded="false" aria-controls="bi"
+                                class="mobile-nav-header">
+                                Solutions
+                            </a>
+                        </div>
+                        <div id="solutions" class="collapse" role="tabpanel" aria-labelledby="solutions">
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/services-art-and-entertainment">Art &amp; Entertainment</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/business-printing">Business</a>
+                            </div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/services-schools-education">Schools &amp; Education</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/services-nonprofit">Non
+                                    Profit</a></div>
+                        </div>
+                    </div>
+                    <div class="card mobile-navigation-nav-catalog">
+                        <div class="card-body drop-shadow-small" role="tab" id="services-group">
+                            <a data-toggle="collapse" href="#services" aria-expanded="false" aria-controls="bi"
+                                class="mobile-nav-header">
+                                Services
+                            </a>
+                        </div>
+                        <div id="services" class="collapse" role="tabpanel" aria-labelledby="services">
+                            <div class="card-body"><a class="mobile-nav-item" href="/bindery">Bindery Options</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/printing/mailing-services">Mailing
+                                    Services</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="https://info.printingcenterusa.com/free-template-links" target="_blank">Online
+                                    Design</a></div>
+                            <div class="card-body"><a class="mobile-nav-item" href="/digital/short-run-printing">Short
+                                    Run</a></div>
+                            <div class="card-body"><a class="mobile-nav-item"
+                                    href="/printing/wholesale-printing">Wholesale Printing</a></div>
+                        </div>
+                    </div>
+                    <div class="card mobile-navigation-nav-catalog">
+                        <div class="card-body drop-shadow-small" role="tab" id="services-group">
+                            <a target="_blank" href="https://info.printingcenterusa.com/request-samples">
+                                Samples
+                            </a>
+                        </div>
+                    </div>
+                     <div class="card mobile-navigation-nav-catalog">
+                        <div class="card-body drop-shadow-small" role="tab" id="services-group">
+                            <a  href="/help-center">
+                                 Help Center
+                            </a>
+                        </div>
+                    </div>
+            </div>
+            </nav>
+        </div>
+    </div>
+    </div>
+</header>
+<!-- Page promo Header Bar Begin -->
+<div id="promoHeaderBar" class="drop-shadow-small" style="position: relative;display:none">
+    <div class="lazyload"
+        src="//res.cloudinary.com/printingcenterusa-com/image/upload/f_auto,fl_immutable_cache/v1583992729/pcusa/NewCS_Banner.jpg"
+        style="min-height: 40px;background-size: cover;text-align: center;font-weight: bold;font-size: 13.5pt;line-height: 40px;color: white;font-style: italic;">
+    </div>
+</div>
+
+<script>    
+     function ShowPromoHeaderBar(content, code) {
+        //jQuery lib has not loaded 
+        if (!$('#promoHeaderBar')) {
+            window.ShowPromoHeaderBar_content = content;
+            window.ShowPromoHeaderBar_code = code;
+            window.ShowPromoHeaderBar_timer = setInterval(function () {
+                if ($('#promoHeaderBar')) {
+                    clearInterval(window.ShowPromoHeaderBar_timer);
+                    $('#promoHeaderBar').attr('data', window.ShowPromoHeaderBar_code);
+                    $('#promoHeaderBar div').text(window.ShowPromoHeaderBar_content);
+                    $('#promoHeaderBar').show();
+                }
+            }, 500);
+        } else {
+            $('#promoHeaderBar').attr('data', code);
+            $('#promoHeaderBar div').text(content);
+            $('#promoHeaderBar').show();
+        }
+    } 
+</script> <!-- Page promo Header Bar End -->
+
+<!--
+    </section>
+    -->
+<!--Books-->
+<!--BLOCK_INCLUDE ID=840 BLOCK_INCLUDE-->
+<!--Calendar-->
+<!--BLOCK_INCLUDE ID=673 BLOCK_INCLUDE-->
+<!--Greeting card-->
+<!--BLOCK_INCLUDE ID=856 BLOCK_INCLUDE-->

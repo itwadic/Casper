@@ -1,0 +1,44 @@
+<script>
+	// var searchUrl = '/ghost/api/v3/content/posts/?key={{>api-key}}&limit=all&include=tags&formats=html,plaintext&filter=tag:tutorials-body,tag:faq-body';
+	var searchUrl = '/ghost/api/v3/content/posts/?key={{>api-key}}&limit=all&include=tags&formats=html,plaintext';
+</script>
+<div id="top-search" class="full-width">
+	<div class="container">
+		<div class="search-container">
+			<h2>Blog Center</h2>
+			<div class="top-search-input-container js-search-form">
+				<input placeholder="Search using a keyword (i.e. “bleed” or “reorder”)" id="search-field" class="suggest-input js-search-input" />
+				<span class="fa fa-search" aria-hidden="true"></span>
+
+			</div>
+			<div class="suggestText">
+				<div class="suggest-option search-results">
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<section id="results" class="container"></section>
+
+<script>
+    if (window.screen.width < 768) {
+        $("#search-field").attr("placeholder","Search using a keyword")
+    }
+    window.global_tag_pageUrl_table = {};
+</script>
+{{#get "posts" filter="tag:faq-page"  limit="all" order="published_at asc"}}
+{{#foreach posts visibility="all"}}
+    <script>
+        window.global_tag_pageUrl_table['{{meta_title}}'] = '{{url}}';
+    </script>
+{{/foreach}}
+{{/get}}
+
+{{!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs --}}
+{{#contentFor "scripts"}}
+<script>
+	$(document).ready(function () {});
+</script>
+{{/contentFor}}

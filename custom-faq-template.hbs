@@ -1,0 +1,200 @@
+{{!< default}}
+
+{{!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template --}}
+{{!-- Everything inside the #post tags pulls data from the post --}}
+
+{{#post}}
+
+
+<main id="site-main" class="site-main outer container">
+    <div class="inner">
+
+        <article class="post-full {{post_class}} {{#unless feature_image}}no-image{{/unless}}">
+
+            <section class="post-full-content container ">
+                {{> left-nav}}
+                <div class="post-content">
+                    <h1 title={{url}} id="fqs_{{title}}" class="BottomDistance faq-Title">{{excerpt}}</h1>
+                    {{#get "posts" filter="tag:faq-body+tag:{{meta_title}}" limit="all" order="published_at asc"}}
+                    {{#foreach posts visibility="all"}}
+                    {{#if featured}}
+                    {{#if meta_title}}
+                    <h4 id="fqs_{{title}}" class="faq-Childern-Title">{{title}}</h4>
+
+                    {{else}}
+                    <h6 id="fqs_{{title}}" class="faq-Childern-Title">{{title}}</h6>
+                    {{/if}}
+                    {{else}}
+
+                    <div class="faq-section">
+                        <div id="ltlAccordion{{id}}" class="section-first-item">
+                            <div class="row accordion" style="">
+                                <div class="col">
+                                    <div class="accordion-content">
+                                        <a class="accordion" data-toggle="collapse" href="#ltlAccordion{{id}}-details"
+                                            aria-expanded="false" target="_blank"
+                                            aria-controls="ltlAccordion1-details"><span>{{title}}</span></a>
+                                        <div class="collapse" id="ltlAccordion{{id}}-details">
+                                            {{content}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+
+                    {{/foreach}}
+                    {{/get}}
+
+
+
+
+
+
+
+
+
+                </div>
+            </section>
+
+        </article>
+
+    </div>
+</main>
+{{/post}}
+{{!-- Links to Previous/Next posts --}}
+<aside class="read-next outer" style="display:none;">
+    <div class="inner">
+        <div class="read-next-feed">
+            {{#if primary_tag}}
+            {{#get "posts" filter="tags:{{primary_tag.slug}}+id:-{{id}}" limit="3" as |related_posts|}}
+            {{#if related_posts}}
+            <article class="read-next-card">
+                <header class="read-next-card-header">
+                    {{#../primary_tag}}
+                    <h3><span>More in</span> <a href="{{url}}">{{name}}</a></h3>
+                    {{/../primary_tag}}
+                </header>
+                <div class="read-next-card-content">
+                    <ul>
+                        {{#foreach related_posts}}
+                        <li>
+                            <h4><a href="{{url}}">{{title}}</a></h4>
+                            <div class="read-next-card-meta">
+                                <p><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMM YYYY"}}</time> –
+                                    {{reading_time}}</p>
+                            </div>
+                        </li>
+                        {{/foreach}}
+                    </ul>
+                </div>
+                <footer class="read-next-card-footer">
+                    <a href="{{#../primary_tag}}{{url}}{{/../primary_tag}}">{{plural meta.pagination.total empty='No posts' singular='% post' plural='See all % posts'}}
+                        →</a>
+                </footer>
+            </article>
+            {{/if}}
+            {{/get}}
+            {{/if}}
+
+            {{!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs --}}
+            {{#next_post}}
+            {{> "post-card"}}
+            {{/next_post}}
+
+            {{!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs --}}
+            {{#prev_post}}
+            {{> "post-card"}}
+            {{/prev_post}}
+        </div>
+    </div>
+</aside>
+
+
+
+{{!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs --}}
+{{#contentFor "scripts"}}
+<script>
+    //$($("#top-search .top-search-catalog > div").get(0)).addClass('active');
+
+    $(document).ready(function () {
+
+        window.golbal_openid = false;
+        if (!(location.href.includes("#"))) {
+            setTimeout(function () {
+                // window.scrollBy(sessionStorage.getItem("pageScroll"),sessionStorage.getItem("pageScroll"));
+            }, 1000)
+        }
+
+        window.onscroll = function () {
+            //sessionStorage.setItem("pageScroll",$(document).scrollTop());
+        }
+
+               var pageIsh4 = $('.post-content h1').nextUntil('.faq-Childern-Title');
+               if(pageIsh4.length == 0)
+               {
+                    $(".post-content h1:first-child").removeClass("BottomDistance");
+                 $(".post-content h1:first-child").css("margin",0);
+
+               }else{
+              $(".post-content h1:first-child").addClass("BottomDistance");
+               }
+
+        //clearTimeout(1100);
+        //Open block
+
+        var openBlockId = util.getUrlParam('block');
+        if (openBlockId) {
+            $(".accordion-content").each(function () {
+
+                var uiFAQSection = $('#ltlAccordion' + openBlockId + '-details').closest('.faq-section');
+                var foundSectionTitle = false;
+                if (uiFAQSection !== undefined) {
+
+                    while (uiFAQSection) {
+                        uiFAQSection = uiFAQSection.prev();
+                        if (uiFAQSection.length == 0) {
+                            foundSectionTitle = false;
+                        }
+                        else if(uiFAQSection.hasClass('faq-Childern-Title') ||uiFAQSection.hasClass('faq-Title'))
+                        {
+                           foundSectionTitle = true;
+                           break;
+                        }
+                    }
+                    if (foundSectionTitle) {
+
+                        expandLeftNavCurrentItem(window.location.pathname,window.golbal_openid)
+                    } else {
+                        window.golbal_openid = false;
+                    }
+
+                }
+
+
+                var hh = $(this).find('> a > span').html();
+                if ($(this).find('> a').attr('href') == '#ltlAccordion' + openBlockId + '-details') {
+                    window.golbal_openid = encodeURIComponent(uiFAQSection.attr("id"));
+                    $(this).find('> a').attr("aria-expanded", true);
+                    $(this).find('> a').removeClass("collapsed");
+                    $(this).find('> .collapse').addClass("show");
+
+                    var contentTop = $("#ltlAccordion" + openBlockId + "").offset().top;
+                    setTimeout(function () {
+                        window.scrollTo(0, contentTop);
+                    }, 500)
+
+
+                }
+
+            })
+
+        }
+
+
+    });
+</script>
+
+{{/contentFor}}
